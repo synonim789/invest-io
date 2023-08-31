@@ -33,3 +33,9 @@
   text-align: center;
   width: 400px;
 }
+
+@media screen and (max-width: 1311px) {
+  .home {
+    flex-direction: column;
+  }
+}
