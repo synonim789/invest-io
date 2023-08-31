@@ -1,0 +1,44 @@
+.navbar__item > * {
+  text-decoration: none;
+  color: white;
+}
+
+.navbar__item > *:hover {
+  color: gray;
+}
+
+.navbar__logo {
+  text-decoration: none;
+  color: white;
+  font-size: 32px;
+}
+
+.navbar__logo:hover {
+  color: gray;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 88px;
+  padding-left: 151px;
+  padding-right: 151px;
+}
+
+.navbar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar__item {
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.active {
+  opacity: 0.5;
+}
