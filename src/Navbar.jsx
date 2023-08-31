@@ -4,18 +4,9 @@ import './Navbar.css'
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <NavLink
-        to="/"
-        className={({ isActive, isPending }) =>
-          isPending
-            ? 'navbar__logo pending'
-            : isActive
-            ? 'navbar__logo active'
-            : 'navbar__logo'
-        }
-      >
+      <Link to="/" className="navbar__logo">
         <h1>Invest.io</h1>
-      </NavLink>
+      </Link>
       <ul className="navbar__list">
         <li className="navbar__item">
           <NavLink
