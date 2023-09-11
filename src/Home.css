@@ -20,6 +20,10 @@
   align-items: center;
 }
 
+.home__cta:hover {
+  color: white;
+  background-color: #8742f8;
+}
 .home {
   display: flex;
   align-items: center;
@@ -37,5 +41,11 @@
 @media screen and (max-width: 1311px) {
   .home {
     flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .home__image {
+    width: 500px;
   }
 }

@@ -14,7 +14,11 @@ const Home = () => {
         </Link>
       </section>
       <section className="home__section">
-        <img src={image} alt="man showing investments on monitor" />
+        <img
+          src={image}
+          alt="man showing investments on monitor"
+          className="home__image"
+        />
       </section>
     </main>
   )

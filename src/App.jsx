@@ -7,7 +7,7 @@ import Crypto from './Crypto'
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <Navbar />
         <Routes>
