@@ -42,3 +42,49 @@
 .active {
   opacity: 0.5;
 }
+
+.navbar__hamburger {
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .navbar__list {
+    display: none;
+  }
+
+  .navbar {
+    padding-top: 40px;
+    padding-left: 75px;
+    padding-right: 75px;
+  }
+
+  .navbar__logo {
+    font-size: 20px;
+  }
+
+  .navbar__hamburger,
+  .navbar__hamburger::after,
+  .navbar__hamburger::before {
+    display: block;
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    border-radius: 2px;
+    position: absolute;
+  }
+
+  .navbar__hamburger {
+    right: 40px;
+    top: 58px;
+  }
+
+  .navbar__hamburger::before {
+    content: '';
+    top: -8px;
+  }
+
+  .navbar__hamburger::after {
+    content: '';
+    top: 8px;
+  }
+}

@@ -45,7 +45,26 @@
 }
 
 @media screen and (max-width: 760px) {
+  .home {
+    padding-left: 75px;
+    padding-right: 75px;
+  }
   .home__image {
-    width: 500px;
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home__text {
+    font-size: 16px;
+    width: 200px;
+  }
+
+  .home__cta {
+    font-size: 16px;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 40px;
   }
 }

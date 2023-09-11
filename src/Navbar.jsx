@@ -39,6 +39,7 @@ const Navbar = () => {
           </NavLink>
         </li>
       </ul>
+      <div className="navbar__hamburger"></div>
     </nav>
   )
 }
