@@ -58,7 +58,7 @@
     height: 100vh;
     color: #8742f8;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
   }
 
   .navbar__list--active {
@@ -67,11 +67,12 @@
   }
 
   .navbar__list--active .navbar__item {
-    display: block;
+    padding: 0;
   }
 
   .navbar__list--active .navbar__item > * {
     color: #8742f8;
+    font-size: 30px;
   }
 
   .navbar {

@@ -42,6 +42,9 @@
   .home {
     flex-direction: column;
   }
+  .home__section {
+    padding-top: 70px;
+  }
 }
 
 @media screen and (max-width: 760px) {
@@ -49,9 +52,9 @@
     padding-left: 75px;
     padding-right: 75px;
   }
+
   .home__image {
     width: 100%;
-    height: auto;
   }
 }
 
