@@ -51,15 +51,27 @@
   .navbar__list {
     position: fixed;
     left: -100%;
-    top: 70px;
+    top: 0;
     gap: 0;
-    flex-direction: column;
     width: 100%;
     text-align: center;
+    height: 100vh;
+    color: #8742f8;
+    flex-direction: column;
+    justify-content: space-around;
   }
 
   .navbar__list--active {
+    background-color: white;
     left: 0;
+  }
+
+  .navbar__list--active .navbar__item {
+    display: block;
+  }
+
+  .navbar__list--active .navbar__item > * {
+    color: #8742f8;
   }
 
   .navbar {
@@ -75,6 +87,7 @@
   .navbar__hamburger {
     display: block;
     cursor: pointer;
+    z-index: 1000;
   }
 
   .navbar__hamburger-bar {
@@ -86,16 +99,24 @@
     margin: 6px auto;
   }
 
+  .navbar__hamburger--active {
+    position: fixed;
+    right: 75px;
+    top: 40px;
+  }
+
   .navbar__hamburger--active .navbar__hamburger-bar:nth-child(2) {
     opacity: 0;
   }
 
   .navbar__hamburger--active .navbar__hamburger-bar:nth-child(1) {
     transform: translateY(10px) rotate(45deg);
+    background-color: #8742f8;
   }
 
   .navbar__hamburger--active .navbar__hamburger-bar:nth-child(3) {
     transform: translateY(-10px) rotate(-45deg);
+    background-color: #8742f8;
   }
 
   .navbar__item {
