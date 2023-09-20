@@ -106,6 +106,18 @@
     top: 40px;
   }
 
+  .navbar__hamburger-bar:nth-child(1) {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .navbar__hamburger-bar:nth-child(2) {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .navbar__hamburger-bar:nth-child(3) {
+    transition: transform 0.3s ease-in-out;
+  }
+
   .navbar__hamburger--active .navbar__hamburger-bar:nth-child(2) {
     opacity: 0;
   }
