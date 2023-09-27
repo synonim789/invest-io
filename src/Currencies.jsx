@@ -9,17 +9,21 @@ const Currencies = () => {
 
   const calculate = async () => {
     const response = await fetch(
-      `https://api.exchangerate.host/convert?from=${fromCurrency}&to=${toCurrency}&amount=${amount}&places=2`
+      `https://api.currencybeacon.com/v1/convert?api_key=DfdCoil2zWoQ4iEsdKleA1OtANRNe6Oo&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
     )
     const data = await response.json()
-    setCalculatedValue(data.result)
+    setCalculatedValue(data.value.toFixed(2))
   }
 
   const fetchCurrenciesList = async () => {
-    const response = await fetch(`https://api.exchangerate.host/list?places=2`)
+    const response = await fetch(
+      `https://api.currencybeacon.com/v1/currencies?api_key=DfdCoil2zWoQ4iEsdKleA1OtANRNe6Oo&type=fiat`
+    )
     const data = await response.json()
-    let currencies = Object.keys(data.rates)
-    setCurrenciesList(currencies)
+    let currencies = Object.values(data)
+    currencies.map((currency) => {
+      setCurrenciesList((oldArray) => [...oldArray, currency.short_code])
+    })
   }
 
   useEffect(() => {
@@ -75,6 +79,7 @@ const Currencies = () => {
         </button>
       </div>
       {calculatedValue > 0 && calculatedValue}
+      {toCurrency && toCurrency}
     </div>
   )
 }
