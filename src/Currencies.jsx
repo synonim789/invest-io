@@ -16,9 +16,7 @@ const Currencies = () => {
   }
 
   const fetchCurrenciesList = async () => {
-    const response = await fetch(
-      `https://api.exchangerate.host/list?places=2&source=imf`
-    )
+    const response = await fetch(`https://api.exchangerate.host/list?places=2`)
     const data = await response.json()
     let currencies = Object.keys(data.rates)
     setCurrenciesList(currencies)
