@@ -40,7 +40,6 @@ const Currencies = () => {
           type="number"
           className="currencies__input"
           placeholder="amount"
-          value={amount}
           onChange={(e) => {
             setAmount(e.target.value)
           }}
