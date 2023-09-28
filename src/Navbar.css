@@ -61,7 +61,7 @@
     color: #8742f8;
     flex-direction: column;
     justify-content: center;
-    transition: 0.2s;
+    transition: 0.3s;
   }
 
   .navbar__list--active {
