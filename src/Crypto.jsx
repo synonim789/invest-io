@@ -43,13 +43,13 @@ const Crypto = () => {
       <div className="crypto__inputs">
         <input
           type="number"
-          placeholder="AMOUNT"
+          placeholder="Amount"
           className="crypto__input"
           onChange={(e) => setAmount(e.target.value)}
         />
         <input
           type="list"
-          placeholder="FROM"
+          placeholder="From"
           list="crypto__list-1"
           className="crypto__list"
           onChange={(e) => setFromCrypto(e.target.value)}
@@ -65,7 +65,7 @@ const Crypto = () => {
         </datalist>
         <input
           type="list"
-          placeholder="TO"
+          placeholder="To"
           list="crypto__list-2"
           className="crypto__list"
           onChange={(e) => setToCurrency(e.target.value)}

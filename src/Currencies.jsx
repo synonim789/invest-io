@@ -39,7 +39,7 @@ const Currencies = () => {
         <input
           type="number"
           className="currencies__input"
-          placeholder="amount"
+          placeholder="Amount"
           onChange={(e) => {
             setAmount(e.target.value)
           }}
@@ -48,7 +48,7 @@ const Currencies = () => {
           type="list"
           className="currencies__list"
           list="currencies__list-1"
-          placeholder="from"
+          placeholder="From"
           onChange={(e) => {
             setFromCurrency(e.target.value)
           }}
@@ -61,7 +61,7 @@ const Currencies = () => {
         <input
           type="list"
           className="currencies__list"
-          placeholder="to"
+          placeholder="To"
           list="currencies__list-2"
           onChange={(e) => setToCurrency(e.target.value)}
         />

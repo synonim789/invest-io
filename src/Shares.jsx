@@ -34,7 +34,7 @@ const Shares = () => {
         <input
           type="number"
           className="stock__input"
-          placeholder="shares amount"
+          placeholder="Shares Amount"
           onChange={(e) => {
             setAmount(e.target.value)
           }}
@@ -43,7 +43,7 @@ const Shares = () => {
           type="list"
           list="stock__list-1"
           className="stock__list"
-          placeholder="company"
+          placeholder="Company"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
         />
