@@ -1,26 +1,26 @@
-.currencies__title {
+.crypto__title {
   color: white;
   text-align: center;
   font-size: 60px;
   margin-top: 40px;
 }
 
-.currencies__inputs {
+.crypto__inputs {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 60px;
 }
 
-.currencies__input,
-.currencies__list {
+.crypto__input,
+.crypto__list {
   margin-right: 20px;
+  padding: 10px 20px;
   border-radius: 10px;
   border: 1px solid gray;
-  padding: 10px 20px;
 }
 
-.currencies__btn {
+.crypto__btn {
   background-color: white;
   color: #8742f8;
   text-decoration: none;
@@ -30,14 +30,15 @@
   font-size: 20px;
   cursor: pointer;
   font-weight: bold;
+  transition: 0.2s;
 }
 
-.currencies__btn:hover {
-  color: white;
+.crypto__btn:hover {
   background-color: #8742f8;
+  color: white;
 }
 
-.currencies__value {
+.crypto__value {
   text-align: center;
   margin-top: 40px;
   font-size: 40px;
@@ -45,15 +46,12 @@
 }
 
 @media screen and (max-width: 850px) {
-  .currencies__inputs {
+  .crypto__inputs {
     flex-direction: column;
   }
-  .currencies__input {
-    margin-right: 0;
-    margin-bottom: 30px;
-  }
 
-  .currencies__list {
+  .crypto__input,
+  .crypto__list {
     margin-right: 0;
     margin-bottom: 30px;
   }

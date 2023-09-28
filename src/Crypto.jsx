@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import './Crypto.css'
 
 const Crypto = () => {
   const [amount, setAmount] = useState(0)
@@ -39,16 +40,16 @@ const Crypto = () => {
   return (
     <div className="crypto">
       <h1 className="crypto__title">Crypto</h1>
-      <div className="crpyto__inputs">
+      <div className="crypto__inputs">
         <input
           type="number"
-          placeholder="amount"
+          placeholder="AMOUNT"
           className="crypto__input"
           onChange={(e) => setAmount(e.target.value)}
         />
         <input
           type="list"
-          placeholder="from"
+          placeholder="FROM"
           list="crypto__list-1"
           className="crypto__list"
           onChange={(e) => setFromCrypto(e.target.value)}
@@ -64,7 +65,7 @@ const Crypto = () => {
         </datalist>
         <input
           type="list"
-          placeholder="to"
+          placeholder="TO"
           list="crypto__list-2"
           className="crypto__list"
           onChange={(e) => setToCurrency(e.target.value)}
@@ -83,7 +84,7 @@ const Crypto = () => {
           Calculate
         </button>
       </div>
-      <p>{exchangeValue > 0 && exchangeValue}</p>
+      <p className="crypto__value">{exchangeValue > 0 && exchangeValue}</p>
     </div>
   )
 }
