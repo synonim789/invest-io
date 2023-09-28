@@ -1,6 +1,7 @@
 .navbar__item > * {
   text-decoration: none;
   color: white;
+  transition: 0.2s;
 }
 
 .navbar__item > *:hover {
@@ -11,6 +12,7 @@
   text-decoration: none;
   color: white;
   font-size: 32px;
+  transition: 0.2s;
 }
 
 .navbar__logo:hover {
