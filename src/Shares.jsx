@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import './Shares.css'
 const Shares = () => {
   const [amount, setAmount] = useState(0)
   const [companiesList, setCompaniesList] = useState([])
@@ -33,7 +33,7 @@ const Shares = () => {
       <div className="stock__inputs">
         <input
           type="number"
-          className="stock__inputs"
+          className="stock__input"
           placeholder="shares amount"
           onChange={(e) => {
             setAmount(e.target.value)
@@ -66,7 +66,7 @@ const Shares = () => {
           calculate
         </button>
       </div>
-      <p>
+      <p className="stock__value">
         {oneStock[0] > 0 && (oneStock[0] * amount).toFixed(2)} {oneStock[1]}
       </p>
     </div>
