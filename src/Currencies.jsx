@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
+import './Currencies.css'
+
 const Currencies = () => {
   const [amount, setAmount] = useState(0)
   const [fromCurrency, setFromCurrency] = useState('')
@@ -32,7 +34,7 @@ const Currencies = () => {
 
   return (
     <div className="currrencies">
-      <h1 className="currenices__title">Currencies</h1>
+      <h1 className="currencies__title">Currencies</h1>
       <div className="currencies__inputs">
         <input
           type="number"
@@ -78,8 +80,10 @@ const Currencies = () => {
           Calculate
         </button>
       </div>
-      {calculatedValue > 0 && calculatedValue}
-      {toCurrency && toCurrency}
+      <p className="currencies__value">
+        {calculatedValue > 0 && calculatedValue + ' '}
+        {toCurrency && toCurrency}
+      </p>
     </div>
   )
 }
