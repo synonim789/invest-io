@@ -11,26 +11,29 @@ const Crypto = () => {
 
   const fetchCryptoList = async () => {
     const response = await fetch(
-      'https://api.exchangerate.host/cryptocurrencies'
+      'https://min-api.cryptocompare.com/data/blockchain/list?api_key=3cd80965c09eeb9c586495ffd2d077668b6bda2a60d23a8356ae811ad25f595e'
     )
-    const data = await response.json()
-    const crypto = data.cryptocurrencies
-    setCryptoList(Object.values(crypto))
+    let data = await response.json()
+    let crypto = Object.keys(data.Data)
+
+    setCryptoList(crypto)
   }
 
   const fetchCurrenciesList = async () => {
-    const response = await fetch('https://api.exchangerate.host/list?places=2')
+    const response = await fetch(
+      'https://openexchangerates.org/api/currencies.json'
+    )
     const data = await response.json()
-    let currencies = Object.keys(data.rates)
+    let currencies = Object.keys(data)
     setCurrencyList(currencies)
   }
 
   const calculate = async () => {
     const response = await fetch(
-      `https://api.exchangerate.host/convert?from=${fromCrypto}&to=${toCurrency}&amount=${amount}&places=2`
+      `https://min-api.cryptocompare.com/data/price?fsym=${fromCrypto}&tsyms=${toCurrency}`
     )
     const data = await response.json()
-    setExchangeValue(data.result)
+    setExchangeValue(data[toCurrency])
   }
 
   useEffect(() => {
@@ -56,11 +59,7 @@ const Crypto = () => {
         />
         <datalist id="crypto__list-1">
           {cryptoList.map((item) => {
-            return (
-              <option value={item.symbol} key={item.symbol}>
-                {item.name}
-              </option>
-            )
+            return <option value={item} key={item}></option>
           })}
         </datalist>
         <input
@@ -84,7 +83,10 @@ const Crypto = () => {
           Calculate
         </button>
       </div>
-      <p className="crypto__value">{exchangeValue > 0 && exchangeValue}</p>
+      <p className="crypto__value">
+        {exchangeValue > 0 && exchangeValue * amount + ' '}
+        {toCurrency}
+      </p>
     </div>
   )
 }
