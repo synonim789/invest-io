@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Currencies.css'
 
 const Currencies = () => {
@@ -8,27 +7,30 @@ const Currencies = () => {
   const [toCurrency, setToCurrency] = useState('')
   const [currrenciesList, setCurrenciesList] = useState([])
   const [calculatedValue, setCalculatedValue] = useState(0)
-
   const calculate = async () => {
     const response = await fetch(
-      `https://api.currencybeacon.com/v1/convert?api_key=DfdCoil2zWoQ4iEsdKleA1OtANRNe6Oo&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
+      `https://api.currencybeacon.com/v1/convert?api_key=${process.env.REACT_APP_CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
     )
     const data = await response.json()
-    setCalculatedValue(data.value.toFixed(2))
-  }
-
-  const fetchCurrenciesList = async () => {
-    const response = await fetch(
-      `https://api.currencybeacon.com/v1/currencies?api_key=DfdCoil2zWoQ4iEsdKleA1OtANRNe6Oo&type=fiat`
-    )
-    const data = await response.json()
-    let currencies = Object.values(data)
-    currencies.map((currency) => {
-      setCurrenciesList((oldArray) => [...oldArray, currency.short_code])
-    })
+    setCalculatedValue(data.value)
   }
 
   useEffect(() => {
+    const fetchCurrenciesList = async () => {
+      const response = await fetch(
+        `https://api.currencybeacon.com/v1/currencies?api_key=${process.env.REACT_APP_CURRENCY_API_KEY}&type=fiat`
+      )
+      const data = await response.json()
+      let currencies = Object.values(data)
+      for (const currency of currencies) {
+        if (currency.short_code !== undefined) {
+          setCurrenciesList((oldCurrency) => [
+            currency.short_code,
+            ...oldCurrency,
+          ])
+        }
+      }
+    }
     fetchCurrenciesList()
   }, [])
 
@@ -67,7 +69,7 @@ const Currencies = () => {
         />
         <datalist id="currencies__list-2">
           {currrenciesList.map((currency) => {
-            return <option value={currency} key={currency}></option>
+            return <option value={currency} key={`second-${currency}`}></option>
           })}
         </datalist>
         <button
@@ -80,8 +82,8 @@ const Currencies = () => {
         </button>
       </div>
       <p className="currencies__value">
-        {calculatedValue > 0 && calculatedValue + ' '}
-        {toCurrency && toCurrency}
+        {calculatedValue > 0 ? calculatedValue + ' ' : ''}
+        {calculatedValue ? toCurrency : ''}
       </p>
     </div>
   )

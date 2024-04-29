@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
+import image from '../../assets/finance.svg'
 import './Home.css'
-import image from './finance.svg'
 const Home = () => {
   return (
     <main className="home">

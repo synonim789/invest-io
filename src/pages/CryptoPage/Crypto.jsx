@@ -9,25 +9,6 @@ const Crypto = () => {
   const [currencyList, setCurrencyList] = useState([])
   const [exchangeValue, setExchangeValue] = useState(0)
 
-  const fetchCryptoList = async () => {
-    const response = await fetch(
-      'https://min-api.cryptocompare.com/data/blockchain/list?api_key=3cd80965c09eeb9c586495ffd2d077668b6bda2a60d23a8356ae811ad25f595e'
-    )
-    let data = await response.json()
-    let crypto = Object.keys(data.Data)
-
-    setCryptoList(crypto)
-  }
-
-  const fetchCurrenciesList = async () => {
-    const response = await fetch(
-      'https://openexchangerates.org/api/currencies.json'
-    )
-    const data = await response.json()
-    let currencies = Object.keys(data)
-    setCurrencyList(currencies)
-  }
-
   const calculate = async () => {
     const response = await fetch(
       `https://min-api.cryptocompare.com/data/price?fsym=${fromCrypto}&tsyms=${toCurrency}`
@@ -37,6 +18,24 @@ const Crypto = () => {
   }
 
   useEffect(() => {
+    const fetchCryptoList = async () => {
+      const response = await fetch(
+        `https://min-api.cryptocompare.com/data/blockchain/list?api_key=${process.env.REACT_APP_CRYPTO_API_KEY}`
+      )
+      let data = await response.json()
+      let crypto = Object.keys(data.Data)
+
+      setCryptoList(crypto)
+    }
+
+    const fetchCurrenciesList = async () => {
+      const response = await fetch(
+        'https://openexchangerates.org/api/currencies.json'
+      )
+      const data = await response.json()
+      let currencies = Object.keys(data)
+      setCurrencyList(currencies)
+    }
     fetchCryptoList()
     fetchCurrenciesList()
   }, [])
@@ -85,7 +84,7 @@ const Crypto = () => {
       </div>
       <p className="crypto__value">
         {exchangeValue > 0 && exchangeValue * amount + ' '}
-        {toCurrency}
+        {exchangeValue ? toCurrency : ''}
       </p>
     </div>
   )

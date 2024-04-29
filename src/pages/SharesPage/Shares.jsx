@@ -5,23 +5,22 @@ const Shares = () => {
   const [companiesList, setCompaniesList] = useState([])
   const [company, setCompany] = useState([])
   const [oneStock, setOneStock] = useState([])
-  const [fullStock, setFullStock] = useState([])
-
-  const fetchCompaniesList = async () => {
-    const response = await fetch(
-      'https://api.twelvedata.com/stocks?exchange=NASDAQ'
-    )
-    const data = await response.json()
-    setCompaniesList(data.data)
-  }
 
   useEffect(() => {
+    const fetchCompaniesList = async () => {
+      const response = await fetch(
+        'https://api.twelvedata.com/stocks?exchange=NASDAQ'
+      )
+      const data = await response.json()
+      setCompaniesList(data.data)
+    }
+
     fetchCompaniesList()
   }, [])
 
   const calculate = async () => {
     const response = await fetch(
-      `https://api.twelvedata.com/time_series?symbol=${company}&interval=1min&apikey=86dbcb95e5474a85acf713bce107ad14`
+      `https://api.twelvedata.com/time_series?symbol=${company}&interval=1min&apikey=${process.env.REACT_APP_SHARES_API_KEY}`
     )
     const data = await response.json()
     setOneStock([parseFloat(data.values[0].open), data.meta.currency])

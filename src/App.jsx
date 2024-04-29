@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Currencies from './Currencies'
-import Home from './Home'
-import Navbar from './Navbar'
-import Shares from './Shares'
-import Crypto from './Crypto'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import Navbar from './components/Navbar/Navbar'
+import Crypto from './pages/CryptoPage/Crypto'
+import Currencies from './pages/CurrenciesPage/Currencies'
+import Home from './pages/HomePage/Home'
+import Shares from './pages/SharesPage/Shares'
 
 function App() {
   return (
