@@ -1,17 +1,25 @@
+'use client'
+
+import { Companies, Company } from '@/types/companies'
 import { useEffect, useState } from 'react'
-import './Shares.css'
-const Shares = () => {
+import { calculateShares } from './actions'
+import './shares.css'
+
+const SharesPage = () => {
   const [amount, setAmount] = useState(0)
-  const [companiesList, setCompaniesList] = useState([])
-  const [company, setCompany] = useState([])
-  const [oneStock, setOneStock] = useState([])
+  const [companiesList, setCompaniesList] = useState<Company[]>([])
+  const [company, setCompany] = useState<string>('')
+  const [oneStock, setOneStock] = useState<{
+    cost: number
+    currency: string
+  } | null>(null)
 
   useEffect(() => {
     const fetchCompaniesList = async () => {
       const response = await fetch(
         'https://api.twelvedata.com/stocks?exchange=NASDAQ'
       )
-      const data = await response.json()
+      const data = (await response.json()) as Companies
       setCompaniesList(data.data)
     }
 
@@ -19,13 +27,12 @@ const Shares = () => {
   }, [])
 
   const calculate = async () => {
-    const response = await fetch(
-      `https://api.twelvedata.com/time_series?symbol=${company}&interval=1min&apikey=${process.env.REACT_APP_SHARES_API_KEY}`
-    )
-    const data = await response.json()
-    setOneStock([parseFloat(data.values[0].open), data.meta.currency])
+    const data = await calculateShares(company)
+    setOneStock({
+      cost: parseFloat(data.values[0].open) * amount,
+      currency: data.meta.currency,
+    })
   }
-
   return (
     <div className="stock">
       <h1 className="stock__title">Stock</h1>
@@ -35,7 +42,7 @@ const Shares = () => {
           className="stock__input"
           placeholder="Shares Amount"
           onChange={(e) => {
-            setAmount(e.target.value)
+            setAmount(parseInt(e.target.value))
           }}
         />
         <input
@@ -61,14 +68,17 @@ const Shares = () => {
           onClick={() => {
             calculate()
           }}
+          disabled={amount === 0 || company === ''}
         >
           calculate
         </button>
       </div>
       <p className="stock__value">
-        {oneStock[0] > 0 && (oneStock[0] * amount).toFixed(2)} {oneStock[1]}
+        {oneStock
+          ? `${oneStock.cost} ${oneStock.currency}`
+          : 'Enter details and calculate'}
       </p>
     </div>
   )
 }
-export default Shares
+export default SharesPage
