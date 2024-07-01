@@ -1,35 +1,47 @@
-import { useEffect, useState } from 'react'
-import './Currencies.css'
+'use client'
 
-const Currencies = () => {
+import { useEffect, useState } from 'react'
+import { calculateExchange, getCurrencies } from './actions'
+import './currencies.css'
+
+const CurrenciesPage = () => {
   const [amount, setAmount] = useState(0)
   const [fromCurrency, setFromCurrency] = useState('')
   const [toCurrency, setToCurrency] = useState('')
-  const [currrenciesList, setCurrenciesList] = useState([])
+  const [currrenciesList, setCurrenciesList] = useState<
+    | {
+        currency_id: number
+        currency_short_code: string
+      }[]
+    | null
+  >(null)
   const [calculatedValue, setCalculatedValue] = useState(0)
   const calculate = async () => {
-    const response = await fetch(
-      `https://api.currencybeacon.com/v1/convert?api_key=${process.env.REACT_APP_CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
-    )
-    const data = await response.json()
+    const data = await calculateExchange({
+      amount: amount,
+      fromCurrency: fromCurrency,
+      toCurrency: toCurrency,
+    })
     setCalculatedValue(data.value)
   }
 
   useEffect(() => {
     const fetchCurrenciesList = async () => {
-      const response = await fetch(
-        `https://api.currencybeacon.com/v1/currencies?api_key=${process.env.REACT_APP_CURRENCY_API_KEY}&type=fiat`
-      )
-      const data = await response.json()
-      let currencies = Object.values(data)
+      const data = await getCurrencies()
+      let newCurrenciesList: {
+        currency_id: number
+        currency_short_code: string
+      }[] = []
+      let currencies = Object.values(data.response)
       for (const currency of currencies) {
         if (currency.short_code !== undefined) {
-          setCurrenciesList((oldCurrency) => [
-            currency.short_code,
-            ...oldCurrency,
-          ])
+          newCurrenciesList.push({
+            currency_id: currency.id,
+            currency_short_code: currency.short_code,
+          })
         }
       }
+      setCurrenciesList(newCurrenciesList)
     }
     fetchCurrenciesList()
   }, [])
@@ -43,7 +55,7 @@ const Currencies = () => {
           className="currencies__input"
           placeholder="Amount"
           onChange={(e) => {
-            setAmount(e.target.value)
+            setAmount(parseFloat(e.target.value))
           }}
         />
         <input
@@ -56,8 +68,13 @@ const Currencies = () => {
           }}
         />
         <datalist id="currencies__list-1">
-          {currrenciesList.map((currency) => {
-            return <option value={currency} key={currency}></option>
+          {currrenciesList?.map((currency) => {
+            return (
+              <option
+                value={currency.currency_short_code}
+                key={currency.currency_id}
+              ></option>
+            )
           })}
         </datalist>
         <input
@@ -68,8 +85,13 @@ const Currencies = () => {
           onChange={(e) => setToCurrency(e.target.value)}
         />
         <datalist id="currencies__list-2">
-          {currrenciesList.map((currency) => {
-            return <option value={currency} key={`second-${currency}`}></option>
+          {currrenciesList?.map((currency) => {
+            return (
+              <option
+                value={currency.currency_short_code}
+                key={`second-${currency.currency_id}`}
+              ></option>
+            )
           })}
         </datalist>
         <button
@@ -77,15 +99,17 @@ const Currencies = () => {
           onClick={() => {
             calculate()
           }}
+          disabled={amount === 0 || toCurrency === '' || fromCurrency === ''}
         >
           Calculate
         </button>
       </div>
       <p className="currencies__value">
-        {calculatedValue > 0 ? calculatedValue + ' ' : ''}
-        {calculatedValue ? toCurrency : ''}
+        {calculatedValue
+          ? `${calculatedValue} ${toCurrency}`
+          : 'Enter details and calculate'}
       </p>
     </div>
   )
 }
-export default Currencies
+export default CurrenciesPage
