@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
-import image from '../../assets/finance.svg'
-import './Home.css'
-const Home = () => {
+import Image from 'next/image'
+import Link from 'next/link'
+import './home.css'
+
+const HomePage = () => {
   return (
     <main className="home">
       <section className="home__section">
@@ -9,18 +10,19 @@ const Home = () => {
           Welcome to Invest.io - your financial compass to monitor your
           investment portfolio with ease and precision.
         </p>
-        <Link to="/shares" className="home__cta">
+        <Link href="shares" className="home__cta">
           Check Now!
         </Link>
       </section>
       <section className="home__section">
-        <img
-          src={image}
+        <Image
+          src="/finance.svg"
           alt="man showing investments on monitor"
-          className="home__image"
+          height={600}
+          width={600}
         />
       </section>
     </main>
   )
 }
-export default Home
+export default HomePage
