@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import './home.css'
 
@@ -15,11 +14,10 @@ const HomePage = () => {
         </Link>
       </section>
       <section className="home__section">
-        <Image
+        <img
           src="/finance.svg"
           alt="man showing investments on monitor"
-          height={600}
-          width={600}
+          className="home__image"
         />
       </section>
     </main>
