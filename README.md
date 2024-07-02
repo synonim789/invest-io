@@ -2,7 +2,7 @@
 
 This is <span>Invest.io</span> a website where you can check value of your investments.
 
-## [Link to page](http://invest.io)
+## [Link to page](http://invest-io.vercel.app)
 
 ![](./public/screen.png)
 
