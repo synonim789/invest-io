@@ -1,0 +1,43 @@
+.not-found__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  padding: 10px;
+}
+
+.not-found__section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.not-found__title {
+  color: white;
+  font-size: 50px;
+  margin-bottom: 16px;
+}
+
+.not-found__description {
+  color: white;
+  font-size: 30px;
+}
+
+.not-found__link {
+  margin: 30px;
+  text-decoration: none;
+  background-color: white;
+  color: #8742f8;
+  transition: 0.2s all;
+  padding: 16px 20px;
+  border-radius: 30px;
+  font-size: 25px;
+}
+
+.not-found__link:hover {
+  background-color: #8742f8;
+  color: white;
+  transform: scale(1.1);
+}
