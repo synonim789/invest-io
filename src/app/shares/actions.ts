@@ -1,6 +1,6 @@
 'use server'
 
-import { SharesResponse } from '@/types/shares'
+import { SharesResponse } from 'types/shares'
 
 export const calculateShares = async (company: string) => {
   const response = await fetch(
