@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Companies, Company } from 'types/companies'
+import { Companies, Company } from '../../types/companies'
 import { calculateShares } from './actions'
 import './shares.css'
 

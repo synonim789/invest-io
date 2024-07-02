@@ -1,6 +1,6 @@
 'use server'
 
-import { Currencies, ExchangeCurrencyResponse } from 'types/currencies'
+import { Currencies, ExchangeCurrencyResponse } from '../../types/currencies'
 
 export const getCurrencies = async () => {
   const response = await fetch(

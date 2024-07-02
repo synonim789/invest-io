@@ -1,6 +1,6 @@
-import Navbar from '@/components/Navbar'
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
+import Navbar from '../components/Navbar'
 import './index.css'
 
 export const metadata: Metadata = {
