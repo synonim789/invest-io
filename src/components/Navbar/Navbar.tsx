@@ -1,11 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import './Navbar.css'
 
 const Navbar = () => {
   const [open, setOpen] = useState(false)
+  const pathName = usePathname()
 
   const changeNavbarState = () => {
     setOpen(!open)
@@ -21,17 +23,29 @@ const Navbar = () => {
         }
       >
         <li className="navbar__item">
-          <Link href="/shares" onClick={() => changeNavbarState()}>
+          <Link
+            href="/shares"
+            onClick={() => changeNavbarState()}
+            className={`${pathName === '/shares' ? 'active' : ''}`}
+          >
             shares
           </Link>
         </li>
         <li className="navbar__item">
-          <Link href="/currencies" onClick={() => changeNavbarState()}>
+          <Link
+            href="/currencies"
+            onClick={() => changeNavbarState()}
+            className={`${pathName === '/currencies' ? 'active' : ''}`}
+          >
             currencies
           </Link>
         </li>
         <li className="navbar__item">
-          <Link href="/crypto" onClick={() => changeNavbarState()}>
+          <Link
+            href="/crypto"
+            onClick={() => changeNavbarState()}
+            className={`${pathName === '/crypto' ? 'active' : ''}`}
+          >
             crypto
           </Link>
         </li>
