@@ -62,7 +62,7 @@ const CryptoPage = () => {
     null
   )
 
-  const [pending, startTransaction] = useTransition()
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
     if (!state) {
@@ -87,7 +87,7 @@ const CryptoPage = () => {
       <form
         className="crypto__inputs"
         action={(formData) =>
-          startTransaction(() => {
+          startTransition(() => {
             try {
               formAction(formData)
             } catch (error) {
@@ -152,7 +152,7 @@ const CryptoPage = () => {
       <p className="crypto__value">
         {exchangeValue
           ? `${exchangeValue} ${toCurrency}`
-          : pending
+          : isPending
           ? 'Calculating...'
           : 'Enter details and calculate'}
       </p>
