@@ -67,7 +67,7 @@ export const calculateCryptoExchange = async (
       throw new Error('Failed to calculate exchange.')
     }
   } else {
-    console.log('Validation failed:', parseData)
-    console.log('Validation failed.')
+    console.error('Validation failed:', parseData)
+    throw new Error('Validation failed.')
   }
 }
