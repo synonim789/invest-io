@@ -6,7 +6,7 @@ import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { Companies, Company } from '../../types/companies'
 import { SharesSchema, sharesSchema } from '../../validation/shares'
-import { calculateShares } from './actions'
+import { SharesState, calculateShares } from './actions'
 import './shares.css'
 
 const SharesPage = () => {
@@ -40,19 +40,27 @@ const SharesPage = () => {
   } = useForm<SharesSchema>({
     resolver: zodResolver(sharesSchema),
     mode: 'onChange',
+    defaultValues: {
+      amount: 0,
+    },
   })
 
   const amount = watch('amount')
   const company = watch('company')
 
-  const [state, formAction] = useFormState<
-    { cost: number; currency: string },
-    FormData
-  >(calculateShares, null)
+  const [state, formAction] = useFormState<SharesState, FormData>(
+    calculateShares,
+    null
+  )
 
   useEffect(() => {
     if (!state) return
-    setOneStock({ cost: state.cost, currency: state.currency })
+    if (state.status === 'error') {
+      setErrorMessage(state.message)
+    }
+    if (state.status === 'success') {
+      setOneStock({ cost: state.cost, currency: state.currency })
+    }
   }, [state])
 
   const [isPending, startTransition] = useTransition()
@@ -107,7 +115,7 @@ const SharesPage = () => {
 
         <button
           className="stock__btn"
-          disabled={amount === 0 || company === ''}
+          disabled={amount === 0 || amount === undefined || company === ''}
         >
           calculate
         </button>
