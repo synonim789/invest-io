@@ -6,6 +6,7 @@ import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { CryptoSchema, cryptoSchema } from '../../validation/crypto'
 import {
+  CryptoState,
   calculateCryptoExchange,
   getAllCryptoCurrencies,
   getLimitedCurrencies,
@@ -57,7 +58,7 @@ const CryptoPage = () => {
     fetchCurrencies()
   }, [fromCrypto])
 
-  const [state, formAction] = useFormState<{ amount: number }, FormData>(
+  const [state, formAction] = useFormState<CryptoState, FormData>(
     calculateCryptoExchange,
     null
   )
@@ -69,7 +70,13 @@ const CryptoPage = () => {
       return
     }
 
-    if (state.amount) setExchangeValue(state.amount)
+    if (state.status === 'error') {
+      setErrorMessage(state.message)
+    }
+
+    if (state.status === 'success') {
+      setExchangeValue(state.amount)
+    }
   }, [state])
 
   useEffect(() => {
