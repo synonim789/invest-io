@@ -1,6 +1,7 @@
 'use server'
 
 import { Currencies, ExchangeCurrencyResponse } from '../../types/currencies'
+import { currenciesSchema } from '../../validation/currencies'
 
 export const getCurrencies = async () => {
   const response = await fetch(
@@ -11,21 +12,28 @@ export const getCurrencies = async () => {
   return data as Currencies
 }
 
-type Params = {
-  fromCurrency: string
-  toCurrency: string
-  amount: number
-}
+export const calculateExchange = async (
+  prevState: ExchangeCurrencyResponse,
+  data: FormData
+) => {
+  const { success, data: parsedData, error } = currenciesSchema.safeParse(data)
+  if (success) {
+    try {
+      const amount = parsedData.amount
+      const fromCurrency = parsedData.fromCurrency
+      const toCurrency = parsedData.toCurrency
 
-export const calculateExchange = async ({
-  fromCurrency,
-  toCurrency,
-  amount,
-}: Params) => {
-  const response = await fetch(
-    `https://api.currencybeacon.com/v1/convert?api_key=${process.env.CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
-  )
+      const response = await fetch(
+        `https://api.currencybeacon.com/v1/convert?api_key=${process.env.CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
+      )
 
-  const data = await response.json()
-  return data as ExchangeCurrencyResponse
+      const responseData = await response.json()
+      return responseData as ExchangeCurrencyResponse
+    } catch (error) {
+      throw new Error('Error while calculating currency price')
+    }
+  } else {
+    console.error('Validation failed:', error)
+    throw new Error('Validation failed.')
+  }
 }

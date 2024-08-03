@@ -8,7 +8,7 @@
 .currencies__inputs {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   margin-top: 60px;
 }
 
@@ -43,6 +43,11 @@
   margin-top: 40px;
   font-size: 40px;
   color: white;
+}
+
+.currencies__error {
+  font-size: 14px;
+  color: red;
 }
 
 @media screen and (max-width: 850px) {
