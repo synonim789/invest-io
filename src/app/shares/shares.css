@@ -8,7 +8,7 @@
 .stock__inputs {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 60px;
 }
 
@@ -49,7 +49,6 @@
   font-size: 40px;
   color: white;
   margin-top: 80px;
-  word-break: break-word;
 }
 
 .stock__error {
@@ -62,12 +61,25 @@
 @media screen and (max-width: 800px) {
   .stock__inputs {
     flex-direction: column;
+    align-items: center;
+  }
+
+  .stock__inputs div {
+    margin-bottom: 30px;
+  }
+
+  .stock__input {
+    margin: 0;
   }
 
   .stock__list {
-    margin-right: 0;
-    margin-left: 0;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 0;
+  }
+
+  .stock__value {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    word-break: break-all;
   }
 }

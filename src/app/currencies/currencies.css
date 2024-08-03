@@ -8,7 +8,7 @@
 .currencies__inputs {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 60px;
 }
 
@@ -43,6 +43,8 @@
   margin-top: 40px;
   font-size: 40px;
   color: white;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .currencies__error {
@@ -53,14 +55,23 @@
 @media screen and (max-width: 850px) {
   .currencies__inputs {
     flex-direction: column;
+    align-items: center;
+  }
+  .currencies__inputs div {
+    margin-bottom: 30px;
   }
   .currencies__input {
     margin-right: 0;
-    margin-bottom: 30px;
   }
 
   .currencies__list {
     margin-right: 0;
-    margin-bottom: 30px;
+  }
+
+  .currencies__value {
+    margin-right: auto;
+    margin-left: auto;
+    word-break: break-all;
+    max-width: 300px;
   }
 }
