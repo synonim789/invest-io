@@ -4,9 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState, useTransition } from 'react'
 import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
-import { ExchangeCurrencyResponse } from '../../types/currencies'
 import { CurrenciesSchema, currenciesSchema } from '../../validation/currencies'
-import { calculateExchange, getCurrencies } from './actions'
+import { CurrenciesState, calculateExchange, getCurrencies } from './actions'
 import './currencies.css'
 
 const CurrenciesPage = () => {
@@ -33,7 +32,7 @@ const CurrenciesPage = () => {
   const toCurrency = watch('toCurrency')
   const fromCurrency = watch('fromCurrency')
 
-  const [state, formAction] = useFormState<ExchangeCurrencyResponse, FormData>(
+  const [state, formAction] = useFormState<CurrenciesState, FormData>(
     calculateExchange,
     null
   )
@@ -62,7 +61,12 @@ const CurrenciesPage = () => {
 
   useEffect(() => {
     if (!state) return
-    setCalculatedValue(state.value)
+    if (state.status === 'error') {
+      setErrorMessage(state.message)
+    }
+    if (state.status === 'success') {
+      setCalculatedValue(state.data.value)
+    }
   }, [state])
 
   return (

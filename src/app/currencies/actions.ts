@@ -1,7 +1,19 @@
 'use server'
 
+import { ZodError } from 'zod'
 import { Currencies, ExchangeCurrencyResponse } from '../../types/currencies'
 import { currenciesSchema } from '../../validation/currencies'
+
+export type CurrenciesState =
+  | {
+      status: 'success'
+      data: ExchangeCurrencyResponse
+    }
+  | {
+      status: 'error'
+      message: string
+    }
+  | null
 
 export const getCurrencies = async () => {
   const response = await fetch(
@@ -13,27 +25,28 @@ export const getCurrencies = async () => {
 }
 
 export const calculateExchange = async (
-  prevState: ExchangeCurrencyResponse,
+  prevState: CurrenciesState,
   data: FormData
-) => {
-  const { success, data: parsedData, error } = currenciesSchema.safeParse(data)
-  if (success) {
-    try {
-      const amount = parsedData.amount
-      const fromCurrency = parsedData.fromCurrency
-      const toCurrency = parsedData.toCurrency
+): Promise<CurrenciesState> => {
+  try {
+    const { amount, fromCurrency, toCurrency } = currenciesSchema.parse(data)
 
-      const response = await fetch(
-        `https://api.currencybeacon.com/v1/convert?api_key=${process.env.CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
-      )
+    const response = await fetch(
+      `https://api.currencybeacon.com/v1/convert?api_key=${process.env.CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
+    )
 
-      const responseData = await response.json()
-      return responseData as ExchangeCurrencyResponse
-    } catch (error) {
-      throw new Error('Error while calculating currency price')
+    const responseData = await response.json()
+    return { status: 'success', data: responseData as ExchangeCurrencyResponse }
+  } catch (err) {
+    if (err instanceof ZodError) {
+      return {
+        status: 'error',
+        message: 'Invalid form data',
+      }
     }
-  } else {
-    console.error('Validation failed:', error)
-    throw new Error('Validation failed.')
+    return {
+      status: 'error',
+      message: 'Something went wrong. Please try again.',
+    }
   }
 }
