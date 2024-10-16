@@ -1,27 +1,13 @@
 'use server'
 
+import ky from 'ky'
 import { ZodError } from 'zod'
-import { Currencies, ExchangeCurrencyResponse } from '../../types/currencies'
+import { ExchangeCurrencyResponse } from '../../types/currencies'
 import { currenciesSchema } from '../../validation/currencies'
 
-export type CurrenciesState =
-  | {
-      status: 'success'
-      data: ExchangeCurrencyResponse
-    }
-  | {
-      status: 'error'
-      message: string
-    }
-  | null
-
-export const getCurrencies = async () => {
-  const response = await fetch(
-    `https://api.currencybeacon.com/v1/currencies?api_key=${process.env.CURRENCY_API_KEY}&type=fiat`
-  )
-
-  const data = await response.json()
-  return data as Currencies
+export type CurrenciesState = {
+  error: null | string
+  data: ExchangeCurrencyResponse | null
 }
 
 export const calculateExchange = async (
@@ -31,22 +17,21 @@ export const calculateExchange = async (
   try {
     const { amount, fromCurrency, toCurrency } = currenciesSchema.parse(data)
 
-    const response = await fetch(
+    const response = await ky(
       `https://api.currencybeacon.com/v1/convert?api_key=${process.env.CURRENCY_API_KEY}&from=${fromCurrency}&to=${toCurrency}&amount=${amount}`
-    )
+    ).json<ExchangeCurrencyResponse>()
 
-    const responseData = await response.json()
-    return { status: 'success', data: responseData as ExchangeCurrencyResponse }
+    return { error: null, data: response }
   } catch (err) {
     if (err instanceof ZodError) {
       return {
-        status: 'error',
-        message: 'Invalid form data',
+        error: 'Invalid form data',
+        data: null,
       }
     }
     return {
-      status: 'error',
-      message: 'Something went wrong. Please try again.',
+      error: 'Something went wrong. Please try again.',
+      data: null,
     }
   }
 }

@@ -1,11 +1,13 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import ky from 'ky'
 import { useEffect, useState, useTransition } from 'react'
 import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
+import { Currencies } from '../../types/currencies'
 import { CurrenciesSchema, currenciesSchema } from '../../validation/currencies'
-import { CurrenciesState, calculateExchange, getCurrencies } from './actions'
+import { CurrenciesState, calculateExchange } from './actions'
 import './currencies.css'
 
 const CurrenciesPage = () => {
@@ -40,7 +42,7 @@ const CurrenciesPage = () => {
 
   useEffect(() => {
     const fetchCurrenciesList = async () => {
-      const data = await getCurrencies()
+      const data = await ky.get('/api/currencies').json<Currencies>()
       let newCurrenciesList: {
         currency_id: number
         currency_short_code: string
@@ -61,12 +63,11 @@ const CurrenciesPage = () => {
 
   useEffect(() => {
     if (!state) return
-    if (state.status === 'error') {
-      setErrorMessage(state.message)
+    if (state.error) {
+      setErrorMessage(state.error)
+      return
     }
-    if (state.status === 'success') {
-      setCalculatedValue(state.data.value)
-    }
+    setCalculatedValue(state.data.value)
   }, [state])
 
   return (
