@@ -1,16 +1,12 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import ky from 'ky'
 import { useEffect, useState, useTransition } from 'react'
 import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { CryptoSchema, cryptoSchema } from '../../validation/crypto'
-import {
-  CryptoState,
-  calculateCryptoExchange,
-  getAllCryptoCurrencies,
-  getLimitedCurrencies,
-} from './actions'
+import { CryptoState, calculateCryptoExchange } from './actions'
 import './crypto.css'
 
 const CryptoPage = () => {
@@ -35,10 +31,12 @@ const CryptoPage = () => {
   useEffect(() => {
     const fetchCryptoList = async () => {
       try {
-        const data = await getAllCryptoCurrencies()
+        const { data } = await ky
+          .get('/api/crypto/all')
+          .json<{ data: string[] }>()
         setCryptoList(data)
       } catch (error) {
-        setErrorMessage(error.message)
+        setErrorMessage(error.error)
       }
     }
 
@@ -49,10 +47,12 @@ const CryptoPage = () => {
     if (!fromCrypto) return
     const fetchCurrencies = async () => {
       try {
-        const data = await getLimitedCurrencies(fromCrypto)
+        const data = await ky
+          .get(`/api/crypto/limited/${fromCrypto}`)
+          .json<string[]>()
         setCurrencyList(data)
       } catch (error) {
-        setErrorMessage(error.message)
+        setErrorMessage(error.error)
       }
     }
     fetchCurrencies()
@@ -70,23 +70,13 @@ const CryptoPage = () => {
       return
     }
 
-    if (state.status === 'error') {
-      setErrorMessage(state.message)
+    if (state.error) {
+      setErrorMessage(state.error)
+      return
     }
 
-    if (state.status === 'success') {
-      setExchangeValue(state.amount)
-    }
+    setExchangeValue(state.amount)
   }, [state])
-
-  useEffect(() => {
-    if (!fromCrypto) return
-    const fetchCurrencies = async () => {
-      const data = await getLimitedCurrencies(fromCrypto)
-      setCurrencyList(data)
-    }
-    fetchCurrencies()
-  }, [fromCrypto])
 
   return (
     <div className="crypto">
