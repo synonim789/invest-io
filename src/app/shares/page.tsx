@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import ky from 'ky'
 import { useEffect, useState, useTransition } from 'react'
 import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
@@ -20,11 +21,11 @@ const SharesPage = () => {
   useEffect(() => {
     const fetchCompaniesList = async () => {
       try {
-        const response = await fetch(
+        const response = await ky(
           'https://api.twelvedata.com/stocks?exchange=NASDAQ'
-        )
-        const data = (await response.json()) as Companies
-        setCompaniesList(data.data)
+        ).json<Companies>()
+
+        setCompaniesList(response.data)
       } catch (error) {
         setErrorMessage(error.message)
       }
