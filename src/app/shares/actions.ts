@@ -1,20 +1,17 @@
 'use server'
 
+import ky from 'ky'
 import { ZodError } from 'zod'
 import { SharesResponse } from '../../types/shares'
 import { sharesSchema } from '../../validation/shares'
 
-export type SharesState =
-  | {
-      status: 'success'
-      cost: number
-      currency: string
-    }
-  | {
-      status: 'error'
-      message: string
-    }
-  | null
+export type SharesState = {
+  error: null | string
+  data: {
+    cost: number
+    currency: string
+  } | null
+}
 
 export const calculateShares = async (
   prevState: SharesState,
@@ -22,24 +19,24 @@ export const calculateShares = async (
 ): Promise<SharesState> => {
   try {
     const { amount, company } = sharesSchema.parse(data)
-    const response = await fetch(
+    const response = await ky(
       `https://api.twelvedata.com/time_series?symbol=${company}&interval=1min&apikey=${process.env.SHARES_API_KEY}`
-    )
-    const responseData = (await response.json()) as SharesResponse
-    const cost = parseFloat(responseData.values[0].open) * amount
-    const currency = responseData.meta.currency
+    ).json<SharesResponse>()
 
-    return { status: 'success', cost, currency }
+    const cost = parseFloat(response.values[0].open) * amount
+    const currency = response.meta.currency
+
+    return { error: null, data: { cost, currency } }
   } catch (err) {
     if (err instanceof ZodError) {
       return {
-        status: 'error',
-        message: 'Invalid form data',
+        error: 'Invalid form data',
+        data: null,
       }
     }
     return {
-      status: 'error',
-      message: 'Something went wrong. please try again.',
+      error: 'Something went wrong. please try again.',
+      data: null,
     }
   }
 }

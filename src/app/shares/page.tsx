@@ -6,7 +6,7 @@ import { useFormState } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { Companies, Company } from '../../types/companies'
 import { SharesSchema, sharesSchema } from '../../validation/shares'
-import { SharesState, calculateShares } from './actions'
+import { calculateShares, SharesState } from './actions'
 import './shares.css'
 
 const SharesPage = () => {
@@ -55,12 +55,12 @@ const SharesPage = () => {
 
   useEffect(() => {
     if (!state) return
-    if (state.status === 'error') {
-      setErrorMessage(state.message)
+    if (state.error) {
+      setErrorMessage(state.error)
+      return
     }
-    if (state.status === 'success') {
-      setOneStock({ cost: state.cost, currency: state.currency })
-    }
+
+    setOneStock({ cost: state.data.cost, currency: state.data.currency })
   }, [state])
 
   const [isPending, startTransition] = useTransition()
